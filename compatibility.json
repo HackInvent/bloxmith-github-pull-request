@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "github_pull_request",
+  "block_version": null,
+  "maintained_by": "HackInvent",
+  "source": {
+    "algorithm": "block-source-v1",
+    "sha256": "46e13bf612d8ae5907b7e74796fd71798a525749d538b7f6ac34cb22a49858da"
+  },
+  "bloxsmith_compatibility": [
+    "1.0.9"
+  ],
+  "tested_with_bloxsmith": "1.0.9",
+  "validations": [
+    {
+      "bloxsmith_version": "1.0.9",
+      "framework_commit": "c116ad3217a696d6408f9beb76def3c98f502b8f",
+      "framework_source_sha256": "9d1823215d180a49aea13bcbf1717e6bf80309ca7bc7197ddfca2f1bb47e9f6f",
+      "tested_at": "2026-09-13T12:54:12.362823+00:00",
+      "status": "passed",
+      "installation_mode": "bundled",
+      "suite_paths": [
+        "tests/F5.26_github_pull_request_block.py"
+      ],
+      "suite_count": 1,
+      "report_sha256": "d0a22ea3f627edcddfe65e65673ad5e9f4411d0b901dd235a8bc50757095e076"
+    }
+  ]
+}

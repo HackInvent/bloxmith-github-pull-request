@@ -1,0 +1,93 @@
+.cw-github-pull-request-modal {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(1120px, calc(100vw - 32px));
+}
+
+.cw-github-pull-request-modal .modal-header,
+.cw-github-pull-request-modal .github-pull-request-modal-footer {
+  padding-inline: 24px;
+}
+
+.cw-github-pull-request-modal .github-pull-request-modal-body {
+  min-height: min(74vh, 720px);
+  overflow: auto;
+  padding: 22px 24px;
+  background: #f7f9fd;
+}
+
+.cw-github-pull-request-modal .github-pull-request-modal-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+  gap: 18px;
+  align-items: start;
+}
+
+.cw-github-pull-request-modal .github-pull-request-modal-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.cw-github-pull-request-modal .github-pull-request-modal-section {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.cw-github-pull-request-modal .github-pull-request-config-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.cw-github-pull-request-modal .github-pull-request-span-2 {
+  grid-column: 1 / -1;
+}
+
+.cw-github-pull-request-modal .github-pull-request-modal-section textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.cw-github-pull-request-modal .github-pull-request-modal-help {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.cw-github-pull-request-modal .github-pull-request-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 14px;
+  border-top: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.github-pull-request-node-card .block-node-card-main {
+  font-weight: 800;
+}
+
+@media (max-width: 900px) {
+  .cw-github-pull-request-modal {
+    width: min(100%, calc(100vw - 24px));
+  }
+
+  .cw-github-pull-request-modal .github-pull-request-modal-layout,
+  .cw-github-pull-request-modal .github-pull-request-config-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cw-github-pull-request-modal .github-pull-request-modal-body {
+    padding: 16px;
+  }
+
+  .cw-github-pull-request-modal .github-pull-request-modal-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

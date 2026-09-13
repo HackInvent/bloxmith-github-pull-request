@@ -1,0 +1,87 @@
+{
+  "kind": "github_pull_request",
+  "title": "Création PR",
+  "ports": {
+    "inputs": [
+      {
+        "id": 1,
+        "name": "issue",
+        "title": "Issue",
+        "accepts": [
+          "application/json",
+          "text/plain",
+          "message/*"
+        ],
+        "multiplicity": "many",
+        "required": true,
+        "execution_requirement": "required_for_execution"
+      },
+      {
+        "id": 2,
+        "name": "branche",
+        "title": "Branche",
+        "accepts": [
+          "application/json",
+          "text/plain",
+          "message/*"
+        ],
+        "multiplicity": "many",
+        "required": true,
+        "execution_requirement": "required_for_execution"
+      },
+      {
+        "id": 3,
+        "name": "rapport_dev",
+        "title": "Rapport dev",
+        "accepts": [
+          "application/json",
+          "text/plain",
+          "message/*"
+        ],
+        "multiplicity": "many",
+        "required": false,
+        "execution_requirement": "required_for_execution"
+      }
+    ],
+    "outputs": [
+      {
+        "id": 1,
+        "name": "rapport_pr",
+        "title": "Rapport PR",
+        "emits": [
+          "application/json",
+          "message/*"
+        ],
+        "multiplicity": "many"
+      },
+      {
+        "id": 2,
+        "name": "summary",
+        "title": "Summary",
+        "emits": [
+          "text/plain",
+          "message/*"
+        ],
+        "multiplicity": "many"
+      }
+    ]
+  },
+  "config": {
+    "api_base_url": "https://api.github.com",
+    "token": "",
+    "repo": "",
+    "base_branch": "main",
+    "draft": true,
+    "dry_run": true,
+    "timeout_sec": 30,
+    "title_template": "",
+    "body_template": ""
+  },
+  "runtime": {
+    "initial_state": "waiting",
+    "runtime_executable": true,
+    "active_worker": true,
+    "centralized_executor": "generic",
+    "centralized_dependency_mode": "all_inputs"
+  }
+}

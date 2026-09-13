@@ -1,0 +1,90 @@
+<div class="cw-block-inspector cw-github-pull-request-inspector" data-block-inspector-root data-node-id="{{ node_id }}" data-node-type="{{ node_type }}">
+  <div class="inspector-selection {{ summary_hidden }}" data-node-type="{{ node_type }}">
+    <div class="inspector-node-card">
+      <div class="inspector-node-icon">PR</div>
+      <div class="inspector-node-copy">
+        <strong>{{ node_title }}</strong>
+        <span>{{ node_kind }}</span>
+      </div>
+      <span class="inspector-node-tag">{{ node_tag }}</span>
+    </div>
+    <div class="inspector-tabs">
+      <button class="inspector-tab {{ general_active }}" data-inspector-tab="general" type="button">General</button>
+      <button class="inspector-tab {{ ports_active }} {{ ports_tab_hidden }}" data-inspector-tab="ports" type="button" {{ ports_tab_disabled }}>Ports</button>
+    </div>
+  </div>
+
+  <div class="inspector-view {{ general_hidden }}" data-inspector-panel-tab="general">
+    <div class="field-group {{ title_hidden }}">
+      <label>Nom du node</label>
+      <input data-node-title-input type="text" placeholder="{{ node_title_placeholder }}" value="{{ node_title }}" />
+    </div>
+
+    <div class="field-group">
+      <label>Repository</label>
+      <input data-block-config-field="repo" type="text" autocomplete="off" spellcheck="false" placeholder="owner/repo" value="{{ repo }}" />
+    </div>
+    <div class="field-group">
+      <label>Base branch</label>
+      <input data-block-config-field="base_branch" type="text" autocomplete="off" spellcheck="false" placeholder="main" value="{{ base_branch }}" />
+    </div>
+    <div class="field-group">
+      <label>API base URL</label>
+      <input data-block-config-field="api_base_url" type="text" autocomplete="off" spellcheck="false" value="{{ api_base_url }}" />
+    </div>
+    <div class="field-group">
+      <label>Timeout secondes</label>
+      <input data-block-config-field="timeout_sec" data-block-value-type="integer" type="number" min="1" max="300" step="1" value="{{ timeout_sec }}" />
+    </div>
+    <div class="field-group">
+      <label>Token GitHub</label>
+      <input data-block-config-field="token" data-block-skip-empty="true" type="password" autocomplete="off" spellcheck="false" placeholder="{{ token_placeholder }}" />
+    </div>
+    <label class="checkbox-line">
+      <input data-block-config-field="draft" data-block-value-type="boolean" type="checkbox" {{ draft_checked }} />
+      <span>Creer la PR en draft</span>
+    </label>
+    <label class="checkbox-line">
+      <input data-block-config-field="dry_run" data-block-value-type="boolean" type="checkbox" {{ dry_run_checked }} />
+      <span>Dry run: ne pas creer de PR</span>
+    </label>
+
+    <div class="field-group">
+      <label>Title template</label>
+      <input data-block-config-field="title_template" type="text" autocomplete="off" spellcheck="false" placeholder="Optionnel: {issue_number} {issue_title} {branch_name}" value="{{ title_template }}" />
+    </div>
+    <div class="field-group">
+      <label>Body template</label>
+      <textarea data-block-config-field="body_template" rows="6" spellcheck="false" placeholder="Optionnel. Variables: {issue_number}, {branch_name}, {commit_sha}, {tests_status}, {summary}">{{ body_template }}</textarea>
+    </div>
+
+    <p class="inspector-copy">
+      Inputs attendus: <code>issue</code>, <code>branche</code>, <code>rapport_dev</code>.
+      Le bloc retrouve une PR ouverte existante avant de creer une nouvelle PR.
+    </p>
+    <div class="inspector-actions {{ actions_hidden }}">
+      <button class="solid-btn" data-block-apply type="button" disabled>Appliquer</button>
+      <button class="ghost-btn {{ duplicate_hidden }}" data-block-action="duplicate" type="button">Dupliquer</button>
+      <button class="danger-btn {{ delete_hidden }}" data-block-action="delete" type="button">Supprimer le bloc</button>
+    </div>
+  </div>
+
+  <div class="inspector-view {{ ports_hidden }}" data-inspector-panel-tab="ports">
+    <div class="ports-editor-section">
+      <div class="ports-editor-header">
+        <span class="group-label">Entrees</span>
+        <span class="ports-editor-actions">
+          <button class="ghost-btn add-port-btn {{ add_input_hidden }}" data-add-input-port type="button" {{ add_input_disabled }}>+ Ajouter une entree</button>
+        </span>
+      </div>
+      <div class="ports-editor-list">{{ inputs_html }}</div>
+    </div>
+    <div class="ports-editor-section">
+      <div class="ports-editor-header">
+        <span class="group-label">Sorties</span>
+        <button class="ghost-btn add-port-btn {{ add_output_hidden }}" data-add-output-port type="button" {{ add_output_disabled }}>+ Ajouter une sortie</button>
+      </div>
+      <div class="ports-editor-list">{{ outputs_html }}</div>
+    </div>
+  </div>
+</div>

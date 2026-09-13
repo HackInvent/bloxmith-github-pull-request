@@ -1,0 +1,27 @@
+# Métadonnées et fichiers générés localement.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.venv/
+venv/
+.DS_Store
+Thumbs.db
+
+# Secrets et données d'exécution : jamais dans le dépôt public.
+.env
+.env.*
+!.env.example
+/logs/
+*.log
+/user/
+/projects/
+/runs/
+/session/
+/exports/
+/tests/framework/
+/tests/results/
