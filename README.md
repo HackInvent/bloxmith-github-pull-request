@@ -1,7 +1,7 @@
 # GitHub Pull Request Block
 
 <!-- block-metadata:start -->
-[![Block version: unversioned](https://img.shields.io/badge/block-unversioned-lightgrey)](model.json)
+[![Block version: 0.1.0](https://img.shields.io/badge/block-0.1.0-blue)](model.json)
 [![BloxSmith compatibility: 1.0.9](https://img.shields.io/badge/BloxSmith-1.0.9-brightgreen)](compatibility.json)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 
