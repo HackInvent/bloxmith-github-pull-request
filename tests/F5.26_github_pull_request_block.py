@@ -341,9 +341,9 @@ def test_dry_run(fake_server: FakeGitHubPullRequestHttpServer) -> None:
     context = unit_context(config=base_config(fake_server.base_url, dry_run=True), token="")
     result = block.execute_runtime(context)
     report = result_from_runtime(result)
-    expect(result.status == "success", "Dry-run doit etre un succes runtime.")
+    expect(result.status == "success", "A dry run must be a runtime success.")
     expect(report.get("status") == "dry_run", "Dry-run doit retourner status=dry_run.")
-    expect(report.get("planned_request", {}).get("method") == "POST", "Dry-run doit retourner la requete planifiee.")
+    expect(report.get("planned_request", {}).get("method") == "POST", "A dry run must return the planned request.")
     expect(report.get("planned_request", {}).get("payload", {}).get("head") == GOOD_BRANCH, "La branche head planifiee doit etre conservee.")
     expect(len(fake_server.requests_log) == 0, "Dry-run ne doit pas contacter GitHub.")
 
@@ -355,9 +355,9 @@ def test_missing_token_blocked(fake_server: FakeGitHubPullRequestHttpServer) -> 
     context = unit_context(config=base_config(fake_server.base_url, dry_run=False), token="")
     result = block.execute_runtime(context)
     report = result_from_runtime(result)
-    expect(result.status == "failed", "Token absent doit echouer au niveau runtime.")
+    expect(result.status == "failed", "A missing token must fail at runtime.")
     expect(report.get("status") == "blocked", "Token absent doit retourner status=blocked.")
-    expect(report.get("blocked") is True, "Le rapport doit etre marque bloque.")
+    expect(report.get("blocked") is True, "The report must be marked as blocked.")
     expect("token" in " ".join(report.get("blockers", [])).lower(), "Le blocker doit expliquer le token manquant.")
     expect(len(fake_server.requests_log) == 0, "Token absent ne doit pas contacter GitHub.")
 
@@ -369,9 +369,9 @@ def test_missing_branch_blocked(fake_server: FakeGitHubPullRequestHttpServer) ->
     context = unit_context(config=base_config(fake_server.base_url, dry_run=False), branch_name=MISSING_BRANCH)
     result = block.execute_runtime(context)
     report = result_from_runtime(result)
-    expect(result.status == "failed", "Branche absente doit echouer au niveau runtime.")
+    expect(result.status == "failed", "A missing branch must fail at runtime.")
     expect(report.get("status") == "blocked", "Branche absente doit retourner status=blocked.")
-    expect(report.get("branch_name") == MISSING_BRANCH, "Le contexte branche doit etre conserve dans le rapport.")
+    expect(report.get("branch_name") == MISSING_BRANCH, "The branch context must be kept in the report.")
     expect("Branche distante introuvable" in " ".join(report.get("blockers", [])), "Le blocker doit expliquer la branche distante absente.")
 
 
@@ -383,11 +383,11 @@ def test_existing_pr(fake_server: FakeGitHubPullRequestHttpServer) -> None:
     result = block.execute_runtime(context)
     report = result_from_runtime(result)
     post_requests = [item for item in fake_server.requests_log if item["method"] == "POST"]
-    expect(result.status == "success", "PR existante doit etre un succes runtime.")
-    expect(report.get("status") == "existing", "Une PR existante doit retourner status=existing.")
-    expect(report.get("pr_number") == 77, "Le numero de PR existante doit etre remonte.")
-    expect(report.get("existing") is True and report.get("created") is False, "Le rapport doit distinguer existing/created.")
-    expect(not post_requests, "Une PR existante ne doit pas declencher de POST.")
+    expect(result.status == "success", "An existing PR must be a runtime success.")
+    expect(report.get("status") == "existing", "An existing PR must return status=existing.")
+    expect(report.get("pr_number") == 77, "The existing PR number must be reported.")
+    expect(report.get("existing") is True and report.get("created") is False, "The report must distinguish existing from created.")
+    expect(not post_requests, "An existing PR must not trigger a POST.")
 
 
 def test_create_pr(fake_server: FakeGitHubPullRequestHttpServer) -> None:
@@ -398,16 +398,16 @@ def test_create_pr(fake_server: FakeGitHubPullRequestHttpServer) -> None:
     result = block.execute_runtime(context)
     report = result_from_runtime(result)
     post_requests = [item for item in fake_server.requests_log if item["method"] == "POST"]
-    expect(result.status == "success", "Creation PR doit etre un succes runtime.")
+    expect(result.status == "success", "Creating a PR must be a runtime success.")
     expect(report.get("status") == "created", "Creation reussie doit retourner status=created.")
-    expect(report.get("pr_number") == 88, "Le numero de PR creee doit etre remonte.")
-    expect(report.get("created") is True and report.get("existing") is False, "Le rapport doit distinguer created/existing.")
-    expect(len(post_requests) == 1, "Une creation doit effectuer un seul POST.")
+    expect(report.get("pr_number") == 88, "The created PR number must be reported.")
+    expect(report.get("created") is True and report.get("existing") is False, "The report must distinguish created from existing.")
+    expect(len(post_requests) == 1, "A creation must issue a single POST.")
     payload = post_requests[0]["payload"]
     expect(payload.get("head") == GOOD_BRANCH, "Le payload POST doit contenir la branche head.")
-    expect(payload.get("base") == "main", "Le payload POST doit contenir la branche base.")
-    expect(payload.get("draft") is True, "Le payload POST doit respecter draft=true.")
-    expect("Refs #3" in payload.get("body", ""), "Le body par defaut doit referencer l issue.")
+    expect(payload.get("base") == "main", "The POST payload must contain the base branch.")
+    expect(payload.get("draft") is True, "The POST payload must honor draft=true.")
+    expect("Refs #3" in payload.get("body", ""), "The default body must reference the issue.")
 
 
 def test_github_http_errors(fake_server: FakeGitHubPullRequestHttpServer) -> None:
@@ -424,10 +424,10 @@ def test_github_http_errors(fake_server: FakeGitHubPullRequestHttpServer) -> Non
         result = block.execute_runtime(context)
         report = result_from_runtime(result)
         text = json.dumps(report, ensure_ascii=False) + "\n" + "\n".join(result.logs) + "\n" + json.dumps(result.metadata, ensure_ascii=False)
-        expect(result.status == "failed", f"HTTP {http_status} doit echouer au niveau runtime.")
+        expect(result.status == "failed", f"HTTP {http_status} must fail at runtime.")
         expect(report.get("status") == expected_status, f"HTTP {http_status} doit retourner status={expected_status}.")
-        expect(report.get("http_status") == http_status, f"HTTP {http_status} doit etre remonte dans le rapport.")
-        expect(token not in text, f"Le token HTTP {http_status} ne doit pas apparaitre dans les diagnostics.")
+        expect(report.get("http_status") == http_status, f"HTTP {http_status} must be reported in the report.")
+        expect(token not in text, f"The token must not appear in the HTTP {http_status} diagnostics.")
 
 
 def test_token_masked(fake_server: FakeGitHubPullRequestHttpServer) -> None:
@@ -447,7 +447,7 @@ def run_runtime_case(runtime_mode: str, fake_server: FakeGitHubPullRequestHttpSe
     """Run the block through the public run API in one runtime mode."""
 
     with isolated_server() as server:
-        # Les surfaces sont des assets de release : le bundled kind n'en sert aucun.
+        # Surfaces are release assets: a bundled kind serves none of them.
         model = install_test_package(server, "github_pull_request")
         key = quote(release_key(model), safe="")
         served = lambda payload, suffix: next(
@@ -460,15 +460,15 @@ def run_runtime_case(runtime_mode: str, fake_server: FakeGitHubPullRequestHttpSe
     node_logs = "\n".join(run.get("node_logs", {}).get(github_node_id, []))
     raw_result = run.get("output_values", {}).get(f"{github_node_id}:1", {}).get("value") or "{}"
     report = json.loads(raw_result)
-    expect(run.get("status") == "success", f"Le run GitHub Pull Request {runtime_mode} doit reussir.")
-    expect(report.get("status") == "created", "Le run doit creer une PR via le serveur factice.")
-    expect(report.get("pr_number") == 88, "Le run doit propager le numero de PR creee.")
-    expect(SECRET not in logs and SECRET not in node_logs and SECRET not in raw_result, "Le token ne doit pas apparaitre dans le run.")
-    expect("fallback centralized" not in logs, "Le run ne doit pas fallback centralise.")
+    expect(run.get("status") == "success", f"The GitHub Pull Request {runtime_mode} run must succeed.")
+    expect(report.get("status") == "created", "The run must create a PR through the fake server.")
+    expect(report.get("pr_number") == 88, "The run must propagate the created PR number.")
+    expect(SECRET not in logs and SECRET not in node_logs and SECRET not in raw_result, "The token must not appear in the run.")
+    expect("fallback centralized" not in logs, "The run must not fall back to the centralized engine.")
     if runtime_mode == "zeromq_active":
         expect(
             run.get("results", {}).get(github_node_id, {}).get("transport") == "zeromq_active",
-            "github_pull_request doit etre execute via zeromq_active.",
+            "github_pull_request must run through zeromq_active.",
         )
     return run
 
@@ -488,13 +488,13 @@ def test_ui_rendering() -> None:
     inspector = render_block_inspector_panel("github_pull_request", {"node": node})
     card = render_block_node_card("github_pull_request", {"node": node})
     html = modal["html"] + inspector["html"] + card["html"]
-    expect("github-pull-request-modal" in modal["html"], "Le modal doit venir du bloc github_pull_request.")
-    expect('data-block-runtime-refresh="autonomous"' in modal["html"], "Le modal GitHub Pull Request doit gerer son refresh runtime.")
+    expect("github-pull-request-modal" in modal["html"], "The modal must come from the github_pull_request block.")
+    expect('data-block-runtime-refresh="autonomous"' in modal["html"], "The GitHub Pull Request modal must own its runtime refresh.")
     expect("data-block-config-field=\"repo\"" in html, "Le rendu doit exposer le champ repo.")
     expect("data-block-config-field=\"base_branch\"" in html, "Le rendu doit exposer le champ base_branch.")
     expect("data-block-config-field=\"dry_run\"" in html, "Le rendu doit exposer le champ dry_run.")
     expect(SECRET not in html, "Le token configure ne doit pas etre hydraté dans le HTML.")
-    # Rendu en processus : la déclaration de release se vérifie sur le manifeste du bloc.
+    # Rendered in process: the release declaration is checked on the block manifest.
     declared = {asset["path"] for assets in json.loads(
         (Path(__file__).resolve().parents[1] / "model.json").read_text(encoding="utf-8")
     )["ui_assets"].values() for asset in assets}

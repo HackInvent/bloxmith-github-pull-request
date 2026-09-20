@@ -16,7 +16,7 @@
 
   <div class="inspector-view {{ general_hidden }}" data-inspector-panel-tab="general">
     <div class="field-group {{ title_hidden }}">
-      <label>Nom du node</label>
+      <label>Node name</label>
       <input data-node-title-input type="text" placeholder="{{ node_title_placeholder }}" value="{{ node_title }}" />
     </div>
 
@@ -46,7 +46,7 @@
     </label>
     <label class="checkbox-line">
       <input data-block-config-field="dry_run" data-block-value-type="boolean" type="checkbox" {{ dry_run_checked }} />
-      <span>Dry run: ne pas creer de PR</span>
+      <span>Dry run: do not create a PR</span>
     </label>
 
     <div class="field-group">
@@ -60,29 +60,29 @@
 
     <p class="inspector-copy">
       Inputs attendus: <code>issue</code>, <code>branche</code>, <code>rapport_dev</code>.
-      Le bloc retrouve une PR ouverte existante avant de creer une nouvelle PR.
+      The block finds an existing open PR before creating a new one.
     </p>
     <div class="inspector-actions {{ actions_hidden }}">
-      <button class="solid-btn" data-block-apply type="button" disabled>Appliquer</button>
-      <button class="ghost-btn {{ duplicate_hidden }}" data-block-action="duplicate" type="button">Dupliquer</button>
-      <button class="danger-btn {{ delete_hidden }}" data-block-action="delete" type="button">Supprimer le bloc</button>
+      <button class="solid-btn" data-block-apply type="button" disabled>Apply</button>
+      <button class="ghost-btn {{ duplicate_hidden }}" data-block-action="duplicate" type="button">Duplicate</button>
+      <button class="danger-btn {{ delete_hidden }}" data-block-action="delete" type="button">Delete the block</button>
     </div>
   </div>
 
   <div class="inspector-view {{ ports_hidden }}" data-inspector-panel-tab="ports">
     <div class="ports-editor-section">
       <div class="ports-editor-header">
-        <span class="group-label">Entrees</span>
+        <span class="group-label">Inputs</span>
         <span class="ports-editor-actions">
-          <button class="ghost-btn add-port-btn {{ add_input_hidden }}" data-add-input-port type="button" {{ add_input_disabled }}>+ Ajouter une entree</button>
+          <button class="ghost-btn add-port-btn {{ add_input_hidden }}" data-add-input-port type="button" {{ add_input_disabled }}>+ Add an input</button>
         </span>
       </div>
       <div class="ports-editor-list">{{ inputs_html }}</div>
     </div>
     <div class="ports-editor-section">
       <div class="ports-editor-header">
-        <span class="group-label">Sorties</span>
-        <button class="ghost-btn add-port-btn {{ add_output_hidden }}" data-add-output-port type="button" {{ add_output_disabled }}>+ Ajouter une sortie</button>
+        <span class="group-label">Outputs</span>
+        <button class="ghost-btn add-port-btn {{ add_output_hidden }}" data-add-output-port type="button" {{ add_output_disabled }}>+ Add an output</button>
       </div>
       <div class="ports-editor-list">{{ outputs_html }}</div>
     </div>

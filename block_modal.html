@@ -5,17 +5,17 @@
       <h2 id="{{ node_id }}BlockModalTitle">{{ node_title }}</h2>
     </div>
     <div class="modal-actions">
-      <button class="ghost-btn" data-close-block-modal type="button">Fermer</button>
+      <button class="ghost-btn" data-close-block-modal type="button">Close</button>
     </div>
   </div>
 
   {{ modal_body_html }}
 
   <div class="github-pull-request-modal-footer">
-    <span class="field-hint">Le token reste masque. En dry-run, le bloc ne cree aucune PR et retourne seulement la requete planifiee.</span>
+    <span class="field-hint">The token stays hidden. In dry run the block creates no PR and only returns the planned request.</span>
     <div class="modal-actions">
-      <button class="ghost-btn" data-close-block-modal type="button">Annuler</button>
-      <button class="solid-btn" data-block-apply type="button" disabled>Appliquer</button>
+      <button class="ghost-btn" data-close-block-modal type="button">Cancel</button>
+      <button class="solid-btn" data-block-apply type="button" disabled>Apply</button>
     </div>
   </div>
 </div>
