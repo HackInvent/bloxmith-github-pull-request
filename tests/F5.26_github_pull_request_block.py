@@ -58,6 +58,8 @@ from ui_smoke_common import (
     text_node,
     wait_for_run_terminal,
 )
+from urllib.parse import quote
+from block_test_packages import install_test_package, release_key, surface_payload
 
 
 def _runtime_node_id_for_kind(run: dict[str, Any], kind: str) -> str:
@@ -445,6 +447,11 @@ def run_runtime_case(runtime_mode: str, fake_server: FakeGitHubPullRequestHttpSe
     """Run the block through the public run API in one runtime mode."""
 
     with isolated_server() as server:
+        # Les surfaces sont des assets de release : le bundled kind n'en sert aucun.
+        model = install_test_package(server, "github_pull_request")
+        key = quote(release_key(model), safe="")
+        served = lambda payload, suffix: next(
+            asset["path"] for asset in payload["assets"] if asset["path"].endswith(suffix))
         created = create_run_api(server, runtime_graph(fake_server.base_url), runtime_mode=runtime_mode)
         run = wait_for_run_terminal(server, str(created.get("run_id") or ""), timeout_sec=25)
 
@@ -487,8 +494,12 @@ def test_ui_rendering() -> None:
     expect("data-block-config-field=\"base_branch\"" in html, "Le rendu doit exposer le champ base_branch.")
     expect("data-block-config-field=\"dry_run\"" in html, "Le rendu doit exposer le champ dry_run.")
     expect(SECRET not in html, "Le token configure ne doit pas etre hydraté dans le HTML.")
-    expect(any(asset.get("path") == "assets/css/block_modal.css" for asset in modal.get("assets", [])), "Le modal doit declarer son CSS de bloc.")
-    expect(any(asset.get("path") == "assets/js/block_modal.js" for asset in modal.get("assets", [])), "Le modal doit declarer son JS block-owned.")
+    # Rendu en processus : la déclaration de release se vérifie sur le manifeste du bloc.
+    declared = {asset["path"] for assets in json.loads(
+        (Path(__file__).resolve().parents[1] / "model.json").read_text(encoding="utf-8")
+    )["ui_assets"].values() for asset in assets}
+    expect("assets/css/block_modal.css" in declared, "Le modal doit declarer son CSS de bloc.")
+    expect("assets/js/block_modal.js" in declared, "Le modal doit declarer son JS block-owned.")
 
 
 def main() -> int:

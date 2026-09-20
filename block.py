@@ -210,22 +210,6 @@ class GitHubPullRequestBlock(BlockDefinition):
         )
         return {"html": html, "context": {"node_id": str(node.get("id") or ""), "token_configured": bool(self._ui_config(node)["token"])}}
 
-    def ui_assets(self, surface: str) -> list[dict[str, str]]:
-        """Return block-owned UI assets for modal, inspector, and card surfaces.
-
-        Args:
-            surface: UI surface requested by the framework.
-        """
-
-        if surface == "modal":
-            return [
-                {"kind": "css", "path": "assets/css/block_modal.css"},
-                {"kind": "js", "path": "assets/js/block_modal.js"},
-            ]
-        if surface in {"inspector_panel", "node_card"}:
-            return [{"kind": "css", "path": "assets/css/block_modal.css"}]
-        return []
-
     def _run_pr_workflow(self, config: dict[str, Any], issue: dict[str, Any], branch_payload: dict[str, Any], dev_report: dict[str, Any]) -> dict[str, Any]:
         """Execute the PR workflow and return the normalized report.
 

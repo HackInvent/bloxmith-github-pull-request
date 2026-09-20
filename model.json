@@ -1,7 +1,9 @@
 {
   "kind": "github_pull_request",
   "version": "0.1.0",
-  "bloxsmith_compatibility": ["1.0.9"],
+  "bloxsmith_compatibility": [
+    "1.0.9"
+  ],
   "tested_with_bloxsmith": "1.0.9",
   "title": "Création PR",
   "ports": {
@@ -86,5 +88,29 @@
     "active_worker": true,
     "centralized_executor": "generic",
     "centralized_dependency_mode": "all_inputs"
+  },
+  "ui_assets": {
+    "modal": [
+      {
+        "kind": "css",
+        "path": "assets/css/block_modal.css"
+      },
+      {
+        "kind": "js",
+        "path": "assets/js/block_modal.js"
+      }
+    ],
+    "inspector_panel": [
+      {
+        "kind": "css",
+        "path": "assets/css/block_modal.css"
+      }
+    ],
+    "node_card": [
+      {
+        "kind": "css",
+        "path": "assets/css/block_modal.css"
+      }
+    ]
   }
 }
