@@ -274,7 +274,7 @@ class GitHubPullRequestBlock(BlockDefinition):
             pr_number = self._normalize_int(created.get("number"), default=0, minimum=0, maximum=999999999)
             pr_url = str(created.get("html_url") or created.get("url") or "")
             if not pr_number or not pr_url:
-                raise GitHubPullRequestBlockError("Reponse GitHub invalide: numero ou URL PR manquant.", status="failed")
+                raise GitHubPullRequestBlockError("Invalid GitHub response: missing PR number or URL.", status="failed")
             result.update({
                 "ok": True,
                 "status": "created",
@@ -318,7 +318,7 @@ class GitHubPullRequestBlock(BlockDefinition):
         if not config["base_branch"]:
             blockers.append("base_branch manquante.")
         if not config["dry_run"] and not config["token"]:
-            blockers.append("token GitHub requis pour creer ou retrouver une PR en mode ecriture.")
+            blockers.append("A GitHub token is required to create or find a PR in write mode.")
         return blockers
 
     def _verify_branch(self, config: dict[str, Any], branch_name: str) -> None:
@@ -348,7 +348,7 @@ class GitHubPullRequestBlock(BlockDefinition):
         query = urlencode({"state": "open", "head": f"{owner}:{branch_name}", "base": config["base_branch"]})
         data = self._api_request(config, "GET", f"/repos/{config['repo']}/pulls?{query}")
         if not isinstance(data, list):
-            raise GitHubPullRequestBlockError("Reponse GitHub invalide: liste PR attendue.", status="failed")
+            raise GitHubPullRequestBlockError("Invalid GitHub response: a PR list was expected.", status="failed")
         return data[0] if data else None
 
     def _create_pr(self, config: dict[str, Any], payload: dict[str, Any]) -> dict[str, Any]:

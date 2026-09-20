@@ -344,8 +344,8 @@ def test_dry_run(fake_server: FakeGitHubPullRequestHttpServer) -> None:
     expect(result.status == "success", "A dry run must be a runtime success.")
     expect(report.get("status") == "dry_run", "Dry-run doit retourner status=dry_run.")
     expect(report.get("planned_request", {}).get("method") == "POST", "A dry run must return the planned request.")
-    expect(report.get("planned_request", {}).get("payload", {}).get("head") == GOOD_BRANCH, "La branche head planifiee doit etre conservee.")
-    expect(len(fake_server.requests_log) == 0, "Dry-run ne doit pas contacter GitHub.")
+    expect(report.get("planned_request", {}).get("payload", {}).get("head") == GOOD_BRANCH, "The planned head branch must be kept.")
+    expect(len(fake_server.requests_log) == 0, "The dry-run must not contact GitHub.")
 
 
 def test_missing_token_blocked(fake_server: FakeGitHubPullRequestHttpServer) -> None:
@@ -358,8 +358,8 @@ def test_missing_token_blocked(fake_server: FakeGitHubPullRequestHttpServer) -> 
     expect(result.status == "failed", "A missing token must fail at runtime.")
     expect(report.get("status") == "blocked", "Token absent doit retourner status=blocked.")
     expect(report.get("blocked") is True, "The report must be marked as blocked.")
-    expect("token" in " ".join(report.get("blockers", [])).lower(), "Le blocker doit expliquer le token manquant.")
-    expect(len(fake_server.requests_log) == 0, "Token absent ne doit pas contacter GitHub.")
+    expect("token" in " ".join(report.get("blockers", [])).lower(), "The blocker must explain the missing token.")
+    expect(len(fake_server.requests_log) == 0, "A missing token must not contact GitHub.")
 
 
 def test_missing_branch_blocked(fake_server: FakeGitHubPullRequestHttpServer) -> None:
@@ -372,7 +372,7 @@ def test_missing_branch_blocked(fake_server: FakeGitHubPullRequestHttpServer) ->
     expect(result.status == "failed", "A missing branch must fail at runtime.")
     expect(report.get("status") == "blocked", "Branche absente doit retourner status=blocked.")
     expect(report.get("branch_name") == MISSING_BRANCH, "The branch context must be kept in the report.")
-    expect("Branche distante introuvable" in " ".join(report.get("blockers", [])), "Le blocker doit expliquer la branche distante absente.")
+    expect("Branche distante introuvable" in " ".join(report.get("blockers", [])), "The blocker must explain the missing remote branch.")
 
 
 def test_existing_pr(fake_server: FakeGitHubPullRequestHttpServer) -> None:
@@ -404,7 +404,7 @@ def test_create_pr(fake_server: FakeGitHubPullRequestHttpServer) -> None:
     expect(report.get("created") is True and report.get("existing") is False, "The report must distinguish created from existing.")
     expect(len(post_requests) == 1, "A creation must issue a single POST.")
     payload = post_requests[0]["payload"]
-    expect(payload.get("head") == GOOD_BRANCH, "Le payload POST doit contenir la branche head.")
+    expect(payload.get("head") == GOOD_BRANCH, "The POST payload must contain the head branch.")
     expect(payload.get("base") == "main", "The POST payload must contain the base branch.")
     expect(payload.get("draft") is True, "The POST payload must honor draft=true.")
     expect("Refs #3" in payload.get("body", ""), "The default body must reference the issue.")
@@ -439,8 +439,8 @@ def test_token_masked(fake_server: FakeGitHubPullRequestHttpServer) -> None:
     combined = json.dumps([output.value for output in result.outputs], ensure_ascii=False)
     combined += "\n" + "\n".join(result.logs)
     combined += "\n" + json.dumps(result.metadata, ensure_ascii=False)
-    expect(SECRET not in combined, "Le token ne doit pas apparaitre dans outputs/logs/metadata.")
-    expect(any(SECRET in item.get("authorization", "") for item in fake_server.requests_log), "Le faux serveur doit bien recevoir le token côté HTTP.")
+    expect(SECRET not in combined, "The token must not appear in outputs, logs or metadata.")
+    expect(any(SECRET in item.get("authorization", "") for item in fake_server.requests_log), "The fake server must actually receive the token over HTTP.")
 
 
 def run_runtime_case(runtime_mode: str, fake_server: FakeGitHubPullRequestHttpServer) -> dict[str, Any]:
@@ -490,16 +490,16 @@ def test_ui_rendering() -> None:
     html = modal["html"] + inspector["html"] + card["html"]
     expect("github-pull-request-modal" in modal["html"], "The modal must come from the github_pull_request block.")
     expect('data-block-runtime-refresh="autonomous"' in modal["html"], "The GitHub Pull Request modal must own its runtime refresh.")
-    expect("data-block-config-field=\"repo\"" in html, "Le rendu doit exposer le champ repo.")
-    expect("data-block-config-field=\"base_branch\"" in html, "Le rendu doit exposer le champ base_branch.")
-    expect("data-block-config-field=\"dry_run\"" in html, "Le rendu doit exposer le champ dry_run.")
-    expect(SECRET not in html, "Le token configure ne doit pas etre hydraté dans le HTML.")
+    expect("data-block-config-field=\"repo\"" in html, "The rendering must expose the repo field.")
+    expect("data-block-config-field=\"base_branch\"" in html, "The rendering must expose the base_branch field.")
+    expect("data-block-config-field=\"dry_run\"" in html, "The rendering must expose the dry_run field.")
+    expect(SECRET not in html, "The configured token must not be hydrated into the HTML.")
     # Rendered in process: the release declaration is checked on the block manifest.
     declared = {asset["path"] for assets in json.loads(
         (Path(__file__).resolve().parents[1] / "model.json").read_text(encoding="utf-8")
     )["ui_assets"].values() for asset in assets}
-    expect("assets/css/block_modal.css" in declared, "Le modal doit declarer son CSS de bloc.")
-    expect("assets/js/block_modal.js" in declared, "Le modal doit declarer son JS block-owned.")
+    expect("assets/css/block_modal.css" in declared, "The modal must declare its block CSS.")
+    expect("assets/js/block_modal.js" in declared, "The modal must declare its block-owned JS.")
 
 
 def main() -> int:
