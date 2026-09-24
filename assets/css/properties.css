@@ -1,0 +1,68 @@
+/* Block-owned properties ergonomics. No canvas, runtime or media-player rules. */
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface],
+[data-block-release="github_pull_request@0.1.0"][data-properties-surface] { box-sizing: border-box; min-width: 0; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] *,
+[data-block-release="github_pull_request@0.1.0"][data-properties-surface] * { box-sizing: border-box; }
+[data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] {
+  display: flex; flex-direction: column; min-height: 0;
+  max-width: calc(100vw - 24px); max-height: calc(100dvh - 24px);
+  overflow: hidden; background: var(--panel, #fff); color: var(--ink, #222936);
+}
+[data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] > :is(.modal-header,.block-modal-header,.web-page-heading) {
+  flex: 0 0 auto; min-width: 0; gap: 12px; align-items: flex-start;
+}
+[data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] > :is(.modal-header,.block-modal-header,.web-page-heading) > div:first-child { min-width: 0; }
+[data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] h2 { overflow-wrap: anywhere; }
+[data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] :is([data-close-block-modal],[data-block-modal-close]) { flex-shrink: 0; }
+[data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] > :is([class$="-body"],[class*="-modal-body"],.web-page-scroll,.chat-terminal-tab-panels) {
+  flex: 1 1 auto; min-width: 0; min-height: 0;
+}
+[data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] > :is([role="tabpanel"]:not(.block-modal-error-panel),.web-page-scroll,.chat-terminal-tab-panels) {
+  min-height: 0; flex: 1 1 auto; overflow: auto; overscroll-behavior: contain;
+}
+[data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] > :is([class$="-footer"],[class$="-actions"],footer) {
+  flex: 0 0 auto; min-width: 0; flex-wrap: wrap; gap: 10px;
+}
+[data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] > .block-modal-error-tabs { flex: 0 0 auto; min-height: 40px; }
+[data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] > .block-modal-error-panel { flex: 0 1 auto; min-height: 0; max-height: min(20dvh, 140px); overflow: auto; }
+[data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] > .block-config-modal-body {
+  display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(240px, 1fr); align-content: start;
+  gap: 16px; overflow: auto; overscroll-behavior: contain;
+}
+[data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] > .block-config-modal-body > * { min-width: 0; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface="inspector"] { width: 100%; max-width: 100%; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface="inspector"] .inspector-tabs { margin-inline: 0; padding-inline: 0; max-width: 100%; flex-wrap: wrap; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface="inspector"] :is(.field-grid,.config-grid,[class$="-attributes-grid"],[class$="-config-grid"],[class$="-settings-grid"]) {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; min-width: 0;
+}
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] :is(.field-group,.ports-editor-section,.ports-editor-list,.inspector-view) { min-width: 0; max-width: 100%; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] .field-group { margin-bottom: 14px; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] :is(.field-group > label,.group-label) { line-height: 1.45; overflow-wrap: anywhere; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]),select,textarea) {
+  min-width: 0; max-width: 100%;
+}
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] :is(.field-group > input:not([type="checkbox"]):not([type="radio"]),.field-group > select,.field-group > textarea) { width: 100%; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] :is(input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]),select) { min-height: 40px; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] input[type="checkbox"] { width: 18px; height: 18px; min-width: 18px; min-height: 18px; padding: 0; margin: 3px 0; flex: 0 0 18px; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] .field-group:has(> input[type="checkbox"]) { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px 10px; align-items: start; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] .field-group > input[type="checkbox"] { grid-column: 1; grid-row: 1; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] .field-group:has(> input[type="checkbox"]) > label { grid-column: 2; grid-row: 1; margin: 0; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] .field-group:has(> input[type="checkbox"]) > :is(p,small,.field-hint) { grid-column: 1 / -1; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] label:has(> input[type="checkbox"]) { display: flex; flex-direction: row; align-items: flex-start; gap: 10px; line-height: 1.5; cursor: pointer; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] :is(.modal-actions,.inspector-actions,.ports-editor-header,.ports-editor-actions) { min-width: 0; flex-wrap: wrap; gap: 8px; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] button { max-width: 100%; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] :is(button,input,select,textarea,summary):focus-visible { outline: 2px solid var(--accent-strong,#257b98); outline-offset: 2px; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] :is(.inspector-copy,.field-hint,.inspector-node-copy,code) { overflow-wrap: anywhere; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface="inspector"] pre { max-width: 100%; overflow: auto; }
+[data-block-release="github_pull_request@0.1.0"] [data-properties-surface] [hidden] { display: none !important; }
+@media (max-width: 700px) {
+  [data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] { max-width: calc(100vw - 16px); max-height: calc(100dvh - 16px); }
+  [data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] :is(.modal-header,.block-modal-header,.web-page-heading) { flex-wrap: wrap; padding: 12px; }
+  [data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] :is(.field-grid,.config-grid,[class$="-attributes-grid"],[class$="-config-grid"]) { grid-template-columns: minmax(0, 1fr); }
+  [data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] > .block-config-modal-body { grid-template-columns: minmax(0, 1fr); }
+  [data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] > .block-config-modal-body > * { grid-column: 1; grid-row: auto; }
+  [data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] [role="tablist"] { min-width: 0; max-width: 100%; overflow-x: auto; }
+  [data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] [role="tab"] { white-space: normal; overflow-wrap: anywhere; }
+  [data-block-release="github_pull_request@0.1.0"] .modal-panel[data-properties-surface="modal"] > :is([class$="-footer"],[class$="-actions"],footer) { padding: 10px 12px; }
+  [data-block-release="github_pull_request@0.1.0"] [data-properties-surface] :is(.ghost-btn,.solid-btn,.primary-btn,.danger-btn) { min-height: 40px; white-space: normal; }
+}
