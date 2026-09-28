@@ -8,6 +8,10 @@
 Verified BloxSmith versions: **1.0.9** (bundled-block tests; see [test evidence](compatibility.json)).
 <!-- block-metadata:end -->
 
+[![PULL REQUEST — Creates or finds a GitHub pull request using workflow issue, branch and development report data.](media/thumbnail.webp)](media/cover.png)
+
+*Concept illustration. [Artwork and generation prompt](media/README.md).*
+
 
 ## Role
 
