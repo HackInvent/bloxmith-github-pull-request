@@ -10,9 +10,6 @@ Verified BloxSmith versions: **1.0.9** (bundled-block tests; see [test evidence]
 
 [![PULL REQUEST — Creates or finds a GitHub pull request using workflow issue, branch and development report data.](media/thumbnail.webp)](media/cover.png)
 
-*Concept illustration. [Artwork and generation prompt](media/README.md).*
-
-
 ## Role
 
 `github_pull_request` creates or finds a GitHub Pull Request from workflow development data without using `gh`, a Codex GitHub connector, or an LLM prompt.
